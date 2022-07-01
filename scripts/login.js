@@ -1,8 +1,9 @@
 window.addEventListener('load', function () {
     const form = document.forms[0];
-    const email = document.querySelector('#inputEmail')
-    const password = document.querySelector('#inputPassword')
+    const emailInput = document.querySelector('#inputEmail')
+    const passwordInput = document.querySelector('#inputPassword')
     const url = 'https://ctd-todo-api.herokuapp.com/v1';
+    const errMessageContainer = this.document.querySelector('errMessageContainer');
 
 
     /* -------------------------------------------------------------------------- */
@@ -11,20 +12,26 @@ window.addEventListener('load', function () {
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const payload = {
-            email: email.value,
-            password: password.value
-        };
-        const settings = {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-        realizarLogin(settings);
-
-        form.reset();
+        if(emailInput && passwordInput) {
+            const payload = {
+                email: emailInput.value,
+                password: passwordInput.value
+            };
+            const settings = {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            realizarLogin(settings);
+    
+            form.reset();
+        } else {
+            errMessageContainer.innerHTML = `
+                <p>Todos los campos deben estar completos</p>
+            `
+        }
     });
 
 
